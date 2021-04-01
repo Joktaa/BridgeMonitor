@@ -17,6 +17,10 @@ namespace BridgeMonitor.Models
 
         [JsonProperty("reopening_date")]
         public DateTime ReopeningDate { get; set; }
+
+        public TimeSpan Duration { get; set; }
+        public string ClosingDateString { get; set; }
+        public string ReopeningDateString { get; set; }
     }
 
 }

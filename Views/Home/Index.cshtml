@@ -1,8 +1,10 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
-}
+﻿@model Fermeture
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+<h1>Prochaine Fermture</h1>
+<h2>@Model.BoatName</h2>
+<h2>@Model.ClosingType</h2>
+<h2>@Model.ClosingDate</h2>
+<h2>@Model.ReopeningDate</h2>
+<h2>@Model.ClosingDateString</h2>
+<h2>@Model.ReopeningDateString</h2>
+<h2>@Model.Duration</h2>

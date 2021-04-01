@@ -22,13 +22,20 @@ namespace BridgeMonitor.Controllers
 
         public IActionResult Index()
         {
-            return View();
+            var fermetures = GetFermetureFromApi();
+            var fermeture = fermetures[0];
+            fermeture.Duration = fermeture.ReopeningDate.Subtract(fermeture.ClosingDate);
+            fermeture.ClosingDateString = fermeture.ClosingDate.ToString("dddd, dd MMMM yyyy HH:mm");
+            fermeture.ReopeningDateString = fermeture.ReopeningDate.ToString("dddd dd MMMM yyyy HH:mm");
+            
+
+            return View(fermeture);
         }
 
-        public IActionResult Privacy()
-        {
-            return View();
+        public IActionResult Toutes(){
+            
         }
+
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
