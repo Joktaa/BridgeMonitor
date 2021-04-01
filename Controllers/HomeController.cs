@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using BridgeMonitor.Models;
+using System.Net.Http;
+using Newtonsoft.Json;
 
 namespace BridgeMonitor.Controllers
 {
@@ -32,6 +34,15 @@ namespace BridgeMonitor.Controllers
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        }
+
+        private static List<Fermeture> GetFermetureFromApi(){
+            using(var client = new HttpClient()){
+                var response = client.GetAsync("https://api.alexandredubois.com/pont-chaban/api.php");
+                var stringResult = response.Result.Content.ReadAsStringAsync();
+                var result = JsonConvert.DeserializeObject<List<Fermeture>>(stringResult.Result);
+                return result;
+            }
         }
     }
 }
