@@ -26,7 +26,6 @@ namespace BridgeMonitor.Controllers
 
             Console.WriteLine("Je n'ai pas réussi à mettre en place le décompte");
             Console.WriteLine("Même chose pour l'indicateur de risque de bouchon");
-            Console.WriteLine("Pour ce qui est du tri des tableaux, il fonctionne pour toutes les dates sauf une, je n'ai pas trouvé la cause");
 
             Console.WriteLine("------------------");
 
@@ -54,15 +53,16 @@ namespace BridgeMonitor.Controllers
             DateTime now = DateTime.Now;
             List<Fermeture> fermeturesAVenir = new List<Fermeture>();
             List<Fermeture> fermeturesPassees = new List<Fermeture>();
+            int i = 0;
 
             foreach (var fermeture in fermetures)
             {
+                fermeture.id = i;
+                i++;
                 fermeture.Duration = fermeture.ReopeningDate.Subtract(fermeture.ClosingDate);
                 fermeture.ClosingDateString = fermeture.ClosingDate.ToString("dddd, dd MMMM yyyy HH:mm");
                 fermeture.ReopeningDateString = fermeture.ReopeningDate.ToString("dddd dd MMMM yyyy HH:mm");
 
-                fermeturesAVenir.Sort();
-                fermeturesPassees.Sort();
                 
                 if (DateTime.Compare(fermeture.ClosingDate, now) <= 0){
                     fermeturesPassees.Add(fermeture);
@@ -71,10 +71,23 @@ namespace BridgeMonitor.Controllers
                 }
             }
 
+            fermeturesAVenir.Sort();
+            fermeturesPassees.Sort();
+
             var model = new ListeFermetures(fermeturesAVenir, fermeturesPassees);
 
 
             return View(model);
+        }
+
+        public IActionResult Fermeture(int id){
+            List<Fermeture> fermetures = GetFermetureFromApi();
+            Fermeture fermeture = fermetures[id];
+            fermeture.Duration = fermeture.ReopeningDate.Subtract(fermeture.ClosingDate);
+            fermeture.ClosingDateString = fermeture.ClosingDate.ToString("dddd, dd MMMM yyyy HH:mm");
+            fermeture.ReopeningDateString = fermeture.ReopeningDate.ToString("dddd dd MMMM yyyy HH:mm");
+
+            return View(fermeture);
         }
 
 
