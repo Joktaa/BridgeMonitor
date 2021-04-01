@@ -22,8 +22,8 @@ namespace BridgeMonitor.Controllers
 
         public IActionResult Index()
         {
-            var fermetures = GetFermetureFromApi();
-            var fermeture = fermetures[0];
+            List<Fermeture> fermetures = GetFermetureFromApi();
+            Fermeture fermeture = fermetures[0];
             fermeture.Duration = fermeture.ReopeningDate.Subtract(fermeture.ClosingDate);
             fermeture.ClosingDateString = fermeture.ClosingDate.ToString("dddd, dd MMMM yyyy HH:mm");
             fermeture.ReopeningDateString = fermeture.ReopeningDate.ToString("dddd dd MMMM yyyy HH:mm");
@@ -33,7 +33,28 @@ namespace BridgeMonitor.Controllers
         }
 
         public IActionResult Toutes(){
-            
+            List<Fermeture> fermetures = GetFermetureFromApi();
+            DateTime now = DateTime.Now;
+            List<Fermeture> fermeturesAVenir = new List<Fermeture>();
+            List<Fermeture> fermeturesPassees = new List<Fermeture>();
+
+            foreach (var fermeture in fermetures)
+            {
+                fermeture.Duration = fermeture.ReopeningDate.Subtract(fermeture.ClosingDate);
+                fermeture.ClosingDateString = fermeture.ClosingDate.ToString("dddd, dd MMMM yyyy HH:mm");
+                fermeture.ReopeningDateString = fermeture.ReopeningDate.ToString("dddd dd MMMM yyyy HH:mm");
+                
+                if (DateTime.Compare(fermeture.ClosingDate, now) <= 0){
+                    fermeturesPassees.Add(fermeture);
+                } else {
+                    fermeturesAVenir.Add(fermeture);
+                }
+            }
+
+            var model = new ListeFermetures(fermeturesAVenir, fermeturesPassees);
+
+
+            return View(model);
         }
 
 

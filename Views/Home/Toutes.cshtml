@@ -1,0 +1,43 @@
+@model ListeFermetures
+
+<h2>Fermetures à venir</h2>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Événement</th>
+            <th>Fermeture</th>
+            <th>Durée</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var fermeture in Model.FermeturesAVenir)
+        {
+            <tr>
+                <td>@fermeture.BoatName</td>
+                <td>@fermeture.ClosingDateString</td>
+                <td>@fermeture.Duration</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<h2>Fermetures passées</h2>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Événement</th>
+            <th>Fermeture</th>
+            <th>Durée</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var fermeture in Model.FermeturesPassees)
+        {
+            <tr>
+                <td>@fermeture.BoatName</td>
+                <td>@fermeture.ClosingDateString</td>
+                <td>@fermeture.Duration</td>
+            </tr>
+        }
+    </tbody>
+</table>
