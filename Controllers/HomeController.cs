@@ -22,8 +22,25 @@ namespace BridgeMonitor.Controllers
 
         public IActionResult Index()
         {
+            Console.WriteLine("------------------");
+
+            Console.WriteLine("Je n'ai pas réussi à mettre en place le décompte");
+            Console.WriteLine("Même chose pour l'indicateur de risque de bouchon");
+            Console.WriteLine("Pour ce qui est du tri des tableaux, il fonctionne pour toutes les dates sauf une, je n'ai pas trouvé la cause");
+
+            Console.WriteLine("------------------");
+
+
+
             List<Fermeture> fermetures = GetFermetureFromApi();
+            fermetures.Sort();
             Fermeture fermeture = fermetures[0];
+            DateTime now = DateTime.Now;
+            int i = 0;
+            while(DateTime.Compare(fermeture.ClosingDate, now) <= 0){
+                fermeture = fermetures[i];
+                i++;
+            }
             fermeture.Duration = fermeture.ReopeningDate.Subtract(fermeture.ClosingDate);
             fermeture.ClosingDateString = fermeture.ClosingDate.ToString("dddd, dd MMMM yyyy HH:mm");
             fermeture.ReopeningDateString = fermeture.ReopeningDate.ToString("dddd dd MMMM yyyy HH:mm");
@@ -43,6 +60,9 @@ namespace BridgeMonitor.Controllers
                 fermeture.Duration = fermeture.ReopeningDate.Subtract(fermeture.ClosingDate);
                 fermeture.ClosingDateString = fermeture.ClosingDate.ToString("dddd, dd MMMM yyyy HH:mm");
                 fermeture.ReopeningDateString = fermeture.ReopeningDate.ToString("dddd dd MMMM yyyy HH:mm");
+
+                fermeturesAVenir.Sort();
+                fermeturesPassees.Sort();
                 
                 if (DateTime.Compare(fermeture.ClosingDate, now) <= 0){
                     fermeturesPassees.Add(fermeture);

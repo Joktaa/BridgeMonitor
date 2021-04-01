@@ -1,10 +1,7 @@
 ﻿@model Fermeture
 
-<h1>Prochaine Fermture</h1>
-<h2>@Model.BoatName</h2>
-<h2>@Model.ClosingType</h2>
-<h2>@Model.ClosingDate</h2>
-<h2>@Model.ReopeningDate</h2>
-<h2>@Model.ClosingDateString</h2>
-<h2>@Model.ReopeningDateString</h2>
-<h2>@Model.Duration</h2>
+<h1>Prochaine Fermeture</h1>
+
+<h2>La prochaine fermeture aura lieu du @Model.ClosingDateString au @Model.ReopeningDateString</h2>
+<h3>Cause : @Model.BoatName</h3>
+<h3>Durée : @Model.Duration</h3>
